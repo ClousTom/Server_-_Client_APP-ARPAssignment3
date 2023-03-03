@@ -1,31 +1,74 @@
-# ARP-Assignment2
-Base repository for the **second ARP assignment**.
-The project provides you with a base infrastructure for the implementation of the simulated vision system through shared memory, according to the requirements specified in the PDF file of the assignment.
+# ARP-Assignment 3
 
-The two processes involved in the simulation of the vision system, namely **processA** and **processB**, are implemented as simple *ncurses windows*. The development of the inter-process communication pipeline, that is the shared memory, is left to you.
+## Project made by:
 
-As for the first assignment, you also find a **master** process already prepared for you, responsible of spawning the entire simulation.
+Claudio Tomaiuolo S5630055
 
-Additionally, I have prepared a simple program called **circle.c**, which shows you the basic functionalities of the *libbitmap* library. Please, note that the **circle.c** process must not appear in your final project. It is simply meant to be a guide for you on how to use the bitmap library, therefore you will need to properly use portions of that code in **processA** and **processB** in order to develop your solution.
+Barış Aker S5430437
 
-## *libbitmap* installation and usage
-To work with the bitmap library, you need to follow these steps:
-1. Download the source code from [this GitHub repo](https://github.com/draekko/libbitmap.git) in your file system.
-2. Navigate to the root directory of the downloaded repo and run the configuration through command ```./configure```. Configuration might take a while.  While running, it prints some messages telling which features it is checking for.
-3. Type ```make``` to compile the package.
-4. Run ```make install``` to install the programs and any data files and documentation.
-5. Upon completing the installation, check that the files have been properly installed by navigating to ```/usr/local/lib```, where you should find the ```libbmp.so``` shared library ready for use.
-6. In order to properly compile programs which use the *libbitmap* library, you first need to notify the **linker** about the location of the shared library. To do that, you can simply add the following line at the end of your ```.bashrc``` file:      
-```export LD_LIBRARY_PATH="/usr/local/lib:$LD_LIBRARY_PATH"```
-### Using *libbitmap* in your code
-Now that you have properly installed the library in your system, it's time to use it in your programs:
-1. Include the library in your programs via ```#include <bmpfile.h>```. If you want to check the content of ```bmpfile.h``` to glimpse the functionalities of the library, navigate to ```/usr/local/include```, where the header file should be located.
-2. Compile programs which use the *libbitmap* library by linking the shared library with the ```-lbmp``` command.     
-Example for compiling **circle.c**: ```gcc src/circle.c -lbmp -lm -o bin/circle``` 
+## ncurses library installation
+To install the ncurses library, simply open a terminal and type the following command:
+```console
+sudo apt-get install libncurses-dev
+```
+## libbitmap library installation
+Download this repository: https://github.com/draekko/libbitmap.
 
-## Compiling and running **processA** and **processB**
-The two processes are implemented as UIs through *ncurses* library, therefore you need to compile their source files by linking the shared library via ```-lncurses```. As for the first assignment, exploit the resize event of the windows to get out of situations in which the graphical elements do not properly spawn.
+Navigate to the root directory of the folder in the console and run the following commands.
 
-## Executing **circle.c**
-This is a simple example of a program which uses the *libbitmap* library. It generates a 100x100 colored `.bmp` file with user-defined name, depicting a blue circle of given radius. When you execute it, pass the two arguments (file name and radius value) along. Execution example: ```./bin/circle out/test.bmp 20```.
+For making the configuration
+```console
+./configure 
+```
 
+For compiling
+```console
+make
+```
+
+For installing
+```console
+sudo make install
+```
+
+After the installation, check if the library has been installed navigating to `/usr/local/lib`, where you are supposed to find the `libbmp.so` file.
+
+The last step is to open the `.bashrc` into the terminal:
+```console
+nano .bashrc
+```
+and add `export LD_LIBRARY_PATH="/usr/local/lib:$LD_LIBRARY_PATH"`.
+Now reload your `.bashrc`:
+```console
+source .bashrc
+```
+
+## Run the code
+Navigate to root directory of the project.
+
+Make the files executable:
+```console
+chmod +x *.sh
+```
+Compile the files:
+```console
+./compile.sh
+```
+Then, run the code with:
+```console
+./run.sh
+```
+
+## Explaination 
+
+The aim of the Project is to create separated processes which are in communication with each other through a shared memory. 
+
+In the `/src` folder, there are three files: processA, processB and master. 
+
+When the user runs the program, two consoles will appear: process A and process B. The user can control the pivot (green cross), which is inside of the process A window console, by using the right, left, upper and down buttons on the keyboard. Depends on user inputs, the object will move in the console. There is also a blue button (P button) for printing an image (multiple numbered images can be saved), which is saved as `.bmp` file into the folder `/output`. The image represents the position of the pivot in process A, represented by a blue circle. 
+During these processes happening, the user can follow the object movements by 0s continuously drawn on the process B window console.
+The process A and process B are in connection with each other through a shared memory and the usage of two semaphores. 
+
+Inside of the master file there is child process creation and processA and processB console creations.
+
+Each process stores its status in a `.log` file into the folder `/log`.
