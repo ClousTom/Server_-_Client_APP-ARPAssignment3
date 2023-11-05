@@ -1,10 +1,4 @@
-# ARP-Assignment 3
-
-## Project made by:
-
-Claudio Tomaiuolo S5630055
-
-Barış Aker S5430437
+# Server and Client APP (Third Assignment for Advanced and Robot Programming)
 
 ## ncurses library installation
 To install the ncurses library, simply open a terminal and type the following command:
